@@ -1,7 +1,7 @@
-DROP TABLE `jknuth1db`.`Donor`;
-DROP TABLE `jknuth1db`.`Event`;
-DROP TABLE `jknuth1db`.`Donation`;
-DROP TABLE `jknuth1db`.`Volunteer`;
-DROP TABLE `jknuth1db`.`Beneficiary`;
-DROP TABLE `jknuth1db`.`Volunteer_At`;
-DROP TABLE `jknuth1db`.`Expenses`;
+DROP TABLE `CHANGEME`.`Donor`;
+DROP TABLE `CHANGEME`.`Event`;
+DROP TABLE `CHANGEME`.`Donation`;
+DROP TABLE `CHANGEME`.`Volunteer`;
+DROP TABLE `CHANGEME`.`Beneficiary`;
+DROP TABLE `CHANGEME`.`Volunteer_At`;
+DROP TABLE `CHANGEME`.`Expenses`;
