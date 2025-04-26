@@ -1,7 +1,8 @@
+DROP TABLE `CHANGEME`.`Expenses`;
+DROP TABLE `CHANGEME`.`Donation`;
+DROP TABLE `CHANGEME`.`Volunteer_At`;
+DROP TABLE `CHANGEME`.`Volunteer`;
 DROP TABLE `CHANGEME`.`Donor`;
 DROP TABLE `CHANGEME`.`Event`;
-DROP TABLE `CHANGEME`.`Donation`;
-DROP TABLE `CHANGEME`.`Volunteer`;
 DROP TABLE `CHANGEME`.`Beneficiary`;
-DROP TABLE `CHANGEME`.`Volunteer_At`;
-DROP TABLE `CHANGEME`.`Expenses`;
+
