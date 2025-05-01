@@ -3,6 +3,8 @@ Created in VS Code
 
 Change all instances of CHANGEME to your database name in each .sql file.
 
+Graphical User Interface needs to be created.
+
 Table Update Order:
 
 --in progress--
