@@ -31,9 +31,9 @@ public class dbconnector {
         System.out.println(e);
     }
     
-    final String ID = "CHANGEME"; //your triton username
-    final String PW = "COSC*"; //add your triton pw here
-    final String SERVER = "jdbc:mysql://triton2.towson.edu:3360/?serverTimezone=EST#/CHANGEMEdb"; //your tronton database name here
+    final String ID = "jakinw1"; //your triton username
+    final String PW = "COSC*qgxvl"; //add your triton pw here
+    final String SERVER = "jdbc:mysql://triton2.towson.edu:3360/?serverTimezone=EST#/jakinw1db"; //your tronton database name here
     String querys;
     try {
         Connection con = DriverManager.getConnection(SERVER, ID, PW);
@@ -41,7 +41,7 @@ public class dbconnector {
 
 
         //This is a simple SELECT request
-        ResultSet rs = stmt.executeQuery("SELECT * FROM CHANGEMEdb.spj");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.spj");
         while (rs.next()){
             String snum = rs.getString("s_num");
             String pnum = rs.getString("p_num");
@@ -58,7 +58,7 @@ public class dbconnector {
 
         //This is an UPDATE request using the above manual input
         PreparedStatement updateSupplier = null;
-        querys = "UPDATE CHANGEMEdb.s SET city = '" + cityName + "' WHERE s_name = 'Blake';";
+        querys = "UPDATE jakinw1db.s SET city = '" + cityName + "' WHERE s_name = 'Blake';";
         updateSupplier = con.prepareStatement(querys);
         updateSupplier.executeUpdate();
 
@@ -66,13 +66,13 @@ public class dbconnector {
 
         //This is an INSERT requets
         PreparedStatement addSuppply = null;
-        querys = "INSERT INTO CHANGEMEdb.s (s_num, s_name, status, city) VALUES ('s6', 'James', '10', 'Cork')";
+        querys = "INSERT INTO jakinw1db.s (s_num, s_name, status, city) VALUES ('s6', 'James', '10', 'Cork')";
         addSuppply = con.prepareStatement(querys);
         addSuppply.executeUpdate();
 
         System.out.println("Insert Complete");
 
-        ResultSet rs2 = stmt.executeQuery("SELECT * FROM CHANGEMEdb.s");
+        ResultSet rs2 = stmt.executeQuery("SELECT * FROM jakinw1db.s");
         while (rs2.next()){
             String snum = rs2.getString("s_num");
             String sname = rs2.getString("s_name");
