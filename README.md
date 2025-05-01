@@ -17,3 +17,12 @@ We need logic to:
 - Add Donor
 - Add Donation
 - Print Details
+
+From the Professor: Grading Points
+- The implemented project must match with the database design report that you already handed in (1st report).
+- The application must not have any errors (at least during the final presentation).
+- The application must be handed in an executable format (i.g. jar file) that do not need any additional software installation.
+- The manuals (functional and case based) must be prepared.
+- One flyer for the application must be prepared.
+- Input/Output design will be considered.
+- Overall design will be considered.
