@@ -8,19 +8,19 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
 
 -- -----------------------------------------------------
--- Schema CHANGEME
+-- Schema jakinw1
 -- -----------------------------------------------------
 
 -- -----------------------------------------------------
--- Schema CHANGEME
+-- Schema jakinw1
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `CHANGEME` DEFAULT CHARACTER SET utf8 ;
-USE `CHANGEME` ;
+CREATE SCHEMA IF NOT EXISTS `jakinw1` DEFAULT CHARACTER SET utf8 ;
+USE `jakinw1` ;
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Donor`
+-- Table `jakinw1`.`Donor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Donor` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Donor` (
   `Name` VARCHAR(45) NOT NULL,
   `Phone` INT NOT NULL,
   `Type` VARCHAR(45) NULL,
@@ -29,9 +29,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Donation`
+-- Table `jakinw1`.`Donation`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Donation` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Donation` (
   `Name` VARCHAR(45) NOT NULL,
   `Date` DATE NOT NULL,
   `Amount` DOUBLE NOT NULL,
@@ -40,16 +40,16 @@ CREATE TABLE IF NOT EXISTS `CHANGEME`.`Donation` (
   PRIMARY KEY (`Name`, `Date`, `Amount`),
   CONSTRAINT `Name`
     FOREIGN KEY (`Name`)
-    REFERENCES `CHANGEME`.`Donor` (`Name`)
+    REFERENCES `jakinw1`.`Donor` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Volunteer`
+-- Table `jakinw1`.`Volunteer`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Volunteer` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Volunteer` (
   `Name` VARCHAR(45) NOT NULL,
   `Phone` INT NOT NULL,
   `Hours` INT NULL,
@@ -58,9 +58,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Event`
+-- Table `jakinw1`.`Event`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Event` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Event` (
   `Name` VARCHAR(45) NOT NULL,
   `EventDate` DATE NOT NULL,
   `Location` VARCHAR(45) NULL,
@@ -71,30 +71,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Volunteer_At`
+-- Table `jakinw1`.`Volunteer_At`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Volunteer_At` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Volunteer_At` (
   `Name` VARCHAR(45) NOT NULL,
   `Event` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`Name`, `Event`),
   INDEX `Event_idx` (`Event` ASC) VISIBLE,
   CONSTRAINT `EventName`
     FOREIGN KEY (`Event`)
-    REFERENCES `CHANGEME`.`Event` (`Name`)
+    REFERENCES `jakinw1`.`Event` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `VolName`
     FOREIGN KEY (`Name`)
-    REFERENCES `CHANGEME`.`Volunteer` (`Name`)
+    REFERENCES `jakinw1`.`Volunteer` (`Name`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Beneficiary`
+-- Table `jakinw1`.`Beneficiary`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Beneficiary` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Beneficiary` (
   `ID` INT NOT NULL,
   `Name` VARCHAR(45) NULL,
   `Phone` INT NULL,
@@ -104,9 +104,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `CHANGEME`.`Expenses`
+-- Table `jakinw1`.`Expenses`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `CHANGEME`.`Expenses` (
+CREATE TABLE IF NOT EXISTS `jakinw1`.`Expenses` (
   `BeneficaryID` INT NOT NULL,
   `Amount` INT NOT NULL,
   `ExpDate` DATE NOT NULL,
@@ -116,12 +116,12 @@ CREATE TABLE IF NOT EXISTS `CHANGEME`.`Expenses` (
   INDEX `Date_idx` (`ExpDate` ASC) VISIBLE,
   CONSTRAINT `BeneID`
     FOREIGN KEY (`BeneficaryID`)
-    REFERENCES `CHANGEME`.`Beneficiary` (`ID`)
+    REFERENCES `jakinw1`.`Beneficiary` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `EvDate`
     FOREIGN KEY (`ExpDate`)
-    REFERENCES `CHANGEME`.`Event` (`EventDate`)
+    REFERENCES `jakinw1`.`Event` (`EventDate`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
