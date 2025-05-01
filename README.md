@@ -6,11 +6,17 @@ Change all instances of CHANGEME to your database name in each .sql file.
 Graphical User Interface needs to be created (Java Swing).
 
 Table Update Order:
+
   1 Event
+
   2 Beneficiaries, Volunteer
+  
   3 Volunteer At, Expenses
 
+
+
   1 Donor
+
   2 Donation
 
 Donor/Donation are not connected to the rest of the schema.
