@@ -33,7 +33,7 @@ public class dbconnector {
     
     final String ID = "jakinw1"; //your triton username
     final String PW = "COSC*qgxvl"; //add your triton pw here
-    final String SERVER = "jdbc:mysql://triton2.towson.edu:3360/?serverTimezone=EST#/jakinw1db"; //your tronton database name here
+    final String SERVER = "jdbc:mysql://triton2.towson.edu:3360/?serverTimezone=EST#/jakinw1db"; //your triton database name here
     String querys;
     try {
         Connection con = DriverManager.getConnection(SERVER, ID, PW);
