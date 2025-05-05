@@ -131,9 +131,24 @@ public class NonProfitDBApp extends JFrame {
 
     // ---------- Add similar methods for Beneficiary, Volunteer, Donation, Expense ----------
     private void showBeneficiaryForm() { /* similar pattern */ }
+    //User Enter Fields: ID, Name, Phone, SupportType
+    
     private void showVolunteerForm() { /* similar pattern */ }
+    //User Enter Fields: Name, Phone, Hours
+    //Then request Event Name
+        //ensure Event Name exsists in Event
+    //This should then update Volunteer_At with Volunteer.Name, Event.name
+
     private void showDonationForm() { /* similar pattern */ }
+    //User Enter Fields: Name, Date, Amount, IsFirst, IsRecurring
+    //Connected: The Separate Donor Entry MUST come First
+        //Ensure Donor Name exsists in Donor.Name
+    
     private void showExpenseForm() { /* similar pattern */ }
+    //User Enter Fields: BeneficaryID, Amount, ExpDate, Category, Description
+    //Connected: Event AND Beneficiary entries MUST come first
+        //Ensure BeneficaryID is in Beneficiary.ID
+        //Ensure ExpDate is in Event.Date
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new NonProfitDBApp().setVisible(true));
