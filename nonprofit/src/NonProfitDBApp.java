@@ -133,7 +133,7 @@ public class NonProfitDBApp extends JFrame {
     private void showBeneficiaryForm() { /* similar pattern */
         JFrame frame = new JFrame("Add Beneficiary");
         frame.setSize(300, 200);
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(5, 2));
         JTextField IDField = new JTextField();
         JTextField nameField = new JTextField();
         JTextField phoneField = new JTextField();
@@ -149,7 +149,7 @@ public class NonProfitDBApp extends JFrame {
         frame.add(panel);
         frame.setVisible(true);
         submitBtn.addActionListener(e -> {
-            insertDonor(IDField.getText(), nameField.getText(), phoneField.getText(), typeField.getText());
+            insertBeneficiary(IDField.getText(), nameField.getText(), phoneField.getText(), typeField.getText());
             frame.dispose();
         });
     }
