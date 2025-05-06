@@ -149,7 +149,7 @@ public class NonProfitDBApp extends JFrame {
         frame.add(panel);
         frame.setVisible(true);
         submitBtn.addActionListener(e -> {
-            insertBeneficiary(IDfield,getText(), nameField.getText(), phoneField.getText(), typeField.getText());
+            insertBeneficiary(IDField.getText(), nameField.getText(), phoneField.getText(), benTypeField.getText());
             frame.dispose();
         });
     }
@@ -181,13 +181,13 @@ public class NonProfitDBApp extends JFrame {
         JTextField nameField = new JTextField();
         JTextField phoneField = new JTextField();
         JTextField hourField = new JTextField();
-        JtextField eventField = new JtextField();
+        JTextField eventField = new JTextField();
         JButton submitBtn = new JButton("Submit");
 
         panel.add(new JLabel("Name:")); panel.add(nameField);
         panel.add(new JLabel("Phone:")); panel.add(phoneField);
         panel.add(new JLabel("Hour:")); panel.add(hourField);
-        panel.add(new Jlabel("Event: ")); panel.add(eventField);
+        panel.add(new JLabel("Event: ")); panel.add(eventField);
         panel.add(submitBtn);
 
         frame.add(panel);
