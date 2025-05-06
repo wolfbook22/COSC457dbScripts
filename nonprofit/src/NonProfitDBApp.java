@@ -254,9 +254,10 @@ public class NonProfitDBApp extends JFrame {
         JButton showDonorTableBtn = new JButton("Show Donors");
         JButton showDonationTableBtn = new JButton("Show Donations");	
         JButton showBeneficiaryTableBtn = new JButton("Show Beneficiaries");
-       JButton showEventTableBtn = new JButton("Show Events");
+        JButton showEventTableBtn = new JButton("Show Events");
         JButton showExpenseTableBtn = new JButton("Show Expenses");
         JButton showVolunteerTableBtn = new JButton("Show Volunteers");
+        JButton exitTables = new JButton("Exit");
 
         panel.add(showDonorTableBtn);
         panel.add(showDonationTableBtn);
@@ -264,6 +265,7 @@ public class NonProfitDBApp extends JFrame {
         panel.add(showEventTableBtn);
         panel.add(showExpenseTableBtn);
         panel.add(showVolunteerTableBtn);
+        panel.add(exitTables);
     
         frame.add(panel);
         frame.setVisible(true);
@@ -274,6 +276,8 @@ public class NonProfitDBApp extends JFrame {
         showEventTableBtn.addActionListener(e -> {printEvents();});
         showExpenseTableBtn.addActionListener(e -> {printExpenses();});
         showVolunteerTableBtn.addActionListener(e -> {printVolunteers();});
+        exitTables.addActionListener(e -> frame.dispose());
+
     }
 
     private void printDonors(){
