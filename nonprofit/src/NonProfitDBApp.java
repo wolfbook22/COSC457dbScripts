@@ -149,7 +149,7 @@ public class NonProfitDBApp extends JFrame {
         frame.add(panel);
         frame.setVisible(true);
         submitBtn.addActionListener(e -> {
-            insertBeneficiary(IDfield,getText(), nameField.getText(), phoneField.getText(), benTypeField.getText());
+            insertBeneficiary(IDfield,getText(), nameField.getText(), phoneField.getText(), typeField.getText());
             frame.dispose();
         });
     }
