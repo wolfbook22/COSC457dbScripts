@@ -10,7 +10,7 @@ public class NonProfitDBApp extends JFrame {
         setTitle("NonProfitDB Management");
         setSize(400, 300);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new GridLayout(6, 1));
+        setLayout(new GridLayout(7, 1));
 
         // Database Connection for SQL
         try{
@@ -35,6 +35,7 @@ public class NonProfitDBApp extends JFrame {
         JButton volunteerBtn = new JButton("Add Volunteer");
         JButton donationBtn = new JButton("Add Donation");
         JButton expenseBtn = new JButton("Add Expense");
+        JButton tablesBtn = new JButton("Show Information");
 
         add(donorBtn);
         add(eventBtn);
@@ -42,6 +43,7 @@ public class NonProfitDBApp extends JFrame {
         add(volunteerBtn);
         add(donationBtn);
         add(expenseBtn);
+        add(tablesBtn);
 
         donorBtn.addActionListener(e -> showDonorForm());
         eventBtn.addActionListener(e -> showEventForm());
@@ -49,6 +51,7 @@ public class NonProfitDBApp extends JFrame {
         volunteerBtn.addActionListener(e -> showVolunteerForm());
         donationBtn.addActionListener(e -> showDonationForm());
         expenseBtn.addActionListener(e -> showExpenseForm());
+        tablesBtn.addActionListener(e -> showTables());
     }
 
     // ---------- Donor ----------
@@ -195,12 +198,13 @@ public class NonProfitDBApp extends JFrame {
         submitBtn.addActionListener(e -> {
             if (!eventExists(eventField.getText())){
                 JOptionPane.showMessageDialog(frame, "Event does not exist. Please enter a valid event name.");
-        return; 
-            } 
+                return; 
+            }
             insertVolunteer(nameField.getText(), phoneField.getText(), hourField.getText());
             frame.dispose();
         });
     }
+    
     private void insertVolunteer(String name, String phone, String Hours) {
         try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Donor VALUES (?, ?, ?)")) {
             stmt.setString(1, name);
@@ -215,7 +219,7 @@ public class NonProfitDBApp extends JFrame {
         }
     }
 
-    private boolean eventExits(String eventName){
+    public boolean eventExists(String eventName){
         try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM jakinw1db.Event WHERE Name = ?")) {
             stmt.setString(1, eventName);
             ResultSet rs = stmt.executeQuery();
@@ -241,6 +245,59 @@ public class NonProfitDBApp extends JFrame {
         //Ensure BeneficaryID is in Beneficiary.ID
         //Ensure ExpDate is in Event.Date
 
+    /* -------- Show Tables -------- */
+    private void showTables(){
+        JFrame frame = new JFrame("List Tables");
+        frame.setSize(400, 400);
+        JPanel panel = new JPanel(new GridLayout(7,1));
+    
+        JButton showDonorTableBtn = new JButton("Show Donors");
+        JButton showDonationTableBtn = new JButton("Show Donations");	
+        JButton showBeneficiaryTableBtn = new JButton("Show Beneficiaries");
+       JButton showEventTableBtn = new JButton("Show Events");
+        JButton showExpenseTableBtn = new JButton("Show Expenses");
+        JButton showVolunteerTableBtn = new JButton("Show Volunteers");
+
+        panel.add(showDonorTableBtn);
+        panel.add(showDonationTableBtn);
+        panel.add(showBeneficiaryTableBtn);
+        panel.add(showEventTableBtn);
+        panel.add(showExpenseTableBtn);
+        panel.add(showVolunteerTableBtn);
+    
+        frame.add(panel);
+        frame.setVisible(true);
+    
+        showDonorTableBtn.addActionListener(e -> {printDonors();});
+        showDonationTableBtn.addActionListener(e -> {printDonations();});
+        showBeneficiaryTableBtn.addActionListener(e -> {printBenes();});
+        showEventTableBtn.addActionListener(e -> {printEvents();});
+        showExpenseTableBtn.addActionListener(e -> {printExpenses();});
+        showVolunteerTableBtn.addActionListener(e -> {printVolunteers();});
+    }
+
+    private void printDonors(){
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Donor");
+            System.out.println();
+            while (rs.next()) {
+                String donName = rs.getString("Name");
+                String donPhone = rs.getString("Phone");
+                String donType = rs.getString("Type");
+                System.out.println(donName+", "+donPhone+", "+donType);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Table.");
+        }
+    }
+    private void printDonations(){}
+    private void printBenes(){}
+    private void printEvents(){}
+    private void printExpenses(){}
+    private void printVolunteers(){}
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new NonProfitDBApp().setVisible(true));
     }
