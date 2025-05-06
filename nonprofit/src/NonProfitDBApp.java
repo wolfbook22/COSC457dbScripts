@@ -133,23 +133,23 @@ public class NonProfitDBApp extends JFrame {
     private void showBeneficiaryForm() { /* similar pattern */
         JFrame frame = new JFrame("Add Beneficiary");
         frame.setSize(300, 200);
-        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JPanel panel = new JPanel(new GridLayout(5, 2));
         JTextField IDField = new JTextField();
         JTextField nameField = new JTextField();
         JTextField phoneField = new JTextField();
-        JTextField typeField = new JTextField();
+        JTextField benTypeField = new JTextField();
         JButton submitBtn = new JButton("Submit");
 
         panel.add(new JLabel("ID:")); panel.add(IDField);
         panel.add(new JLabel("Name:")); panel.add(nameField);
         panel.add(new JLabel("Phone:")); panel.add(phoneField);
-        panel.add(new JLabel("Type:")); panel.add(typeField);
+        panel.add(new JLabel("Type:")); panel.add(benTypeField);
         panel.add(submitBtn);
 
         frame.add(panel);
         frame.setVisible(true);
         submitBtn.addActionListener(e -> {
-            insertBeneficiary(IDfield,getText(), nameField.getText(), phoneField.getText(), typeField.getText());
+            insertBeneficiary(IDfield,getText(), nameField.getText(), phoneField.getText(), benTypeField.getText());
             frame.dispose();
         });
     }
@@ -172,7 +172,59 @@ public class NonProfitDBApp extends JFrame {
 
     
     
-    private void showVolunteerForm() { /* similar pattern */ }
+    private void showVolunteerForm() { 
+        /* similar pattern */ 
+        //doing what i can without being able to run so if wrong just delete
+        JFrame frame = new JFrame("Add Volunteer");
+        frame.setSize(300, 200);
+        JPanel panel = new JPanel(new GridLayout(5, 2));
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField hourField = new JTextField();
+        JtextField eventField = new JtextField();
+        JButton submitBtn = new JButton("Submit");
+
+        panel.add(new JLabel("Name:")); panel.add(nameField);
+        panel.add(new JLabel("Phone:")); panel.add(phoneField);
+        panel.add(new JLabel("Hour:")); panel.add(hourField);
+        panel.add(new Jlabel("Event: ")); panel.add(eventField);
+        panel.add(submitBtn);
+
+        frame.add(panel);
+        frame.setVisible(true);
+        submitBtn.addActionListener(e -> {
+            if (!eventExists(eventField.getText())){
+                JOptionPane.showMessageDialog(frame, "Event does not exist. Please enter a valid event name.");
+        return; 
+            } 
+            insertVolunteer(nameField.getText(), phoneField.getText(), hourField.getText());
+            frame.dispose();
+        });
+    }
+    private void insertVolunteer(String name, String phone, String Hours) {
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Donor VALUES (?, ?, ?)")) {
+            stmt.setString(1, name);
+            stmt.setInt(2, Integer.parseInt(phone));
+            stmt.setInt(3, Integer.parseInt(Hours));
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Volunteer added!");
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error adding Volunteer.");
+        }
+    }
+
+    private boolean eventExits(String eventName){
+        try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM jakinw1db.Event WHERE Name = ?")) {
+            stmt.setString(1, eventName);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
     //User Enter Fields: Name, Phone, Hours
     //Then request Event Name
         //ensure Event Name exsists in Event
