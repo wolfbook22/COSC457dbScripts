@@ -130,8 +130,47 @@ public class NonProfitDBApp extends JFrame {
     }
 
     // ---------- Add similar methods for Beneficiary, Volunteer, Donation, Expense ----------
-    private void showBeneficiaryForm() { /* similar pattern */ }
+    private void showBeneficiaryForm() { /* similar pattern */
+        JFrame frame = new JFrame("Add Beneficiary");
+        frame.setSize(300, 200);
+        JPanel panel = new JPanel(new GridLayout(4, 2));
+        JTextField IDField = new JTextField();
+        JTextField nameField = new JTextField();
+        JTextField phoneField = new JTextField();
+        JTextField typeField = new JTextField();
+        JButton submitBtn = new JButton("Submit");
+
+        panel.add(new JLabel("ID:")); panel.add(IDField);
+        panel.add(new JLabel("Name:")); panel.add(nameField);
+        panel.add(new JLabel("Phone:")); panel.add(phoneField);
+        panel.add(new JLabel("Type:")); panel.add(typeField);
+        panel.add(submitBtn);
+
+        frame.add(panel);
+        frame.setVisible(true);
+        submitBtn.addActionListener(e -> {
+            insertDonor(IDField.getText(), nameField.getText(), phoneField.getText(), typeField.getText());
+            frame.dispose();
+        });
+    }
+
+    private void insertBeneficiary(String ID, String name, String phone, String type) {
+        try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Donor VALUES (?, ?, ?, ?)")) {
+            stmt.setString(1, ID);
+            stmt.setString(2, name);
+            stmt.setInt(3, Integer.parseInt(phone));
+            stmt.setString(4, type);
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Beneficiary added!");
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error adding Beneficiary.");
+        }
+    }
     //User Enter Fields: ID, Name, Phone, SupportType
+
+    
     
     private void showVolunteerForm() { /* similar pattern */ }
     //User Enter Fields: Name, Phone, Hours
