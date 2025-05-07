@@ -292,11 +292,99 @@ public class NonProfitDBApp extends JFrame {
             JOptionPane.showMessageDialog(this, "Error Getting Table.");
         }
     }
-    private void printDonations(){}
-    private void printBenes(){}
-    private void printEvents(){}
-    private void printExpenses(){}
-    private void printVolunteers(){}
+    
+    private void printDonations() {
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Donation");
+            System.out.println();
+            while (rs.next()) {
+                String donName = rs.getString("Name");
+                Date donDate = rs.getDate("Date");
+                double donAmount = rs.getDouble("Amount");
+                String isFirst = rs.getString("IsFirst");
+                String isRecurring = rs.getString("IsRecurring");
+                System.out.println(donName + ", " + donDate + ", " + donAmount + ", " + isFirst + ", " + isRecurring);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Donations Table.");
+        }
+    }
+    
+    private void printBenes() {
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Beneficiary");
+            System.out.println();
+            while (rs.next()) {
+                String benID = rs.getString("ID");
+                String benName = rs.getString("Name");
+                String benPhone = rs.getString("Phone");
+                String benType = rs.getString("Type");
+                System.out.println(benID + ", " + benName + ", " + benPhone + ", " + benType);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Beneficiaries Table.");
+        }
+    }
+    
+    private void printEvents() {
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Event");
+            System.out.println();
+            while (rs.next()) {
+                String eventName = rs.getString("Name");
+                Date eventDate = rs.getDate("Date");
+                String eventLocation = rs.getString("Location");
+                String eventBeneficiary = rs.getString("Beneficiary");
+                System.out.println(eventName + ", " + eventDate + ", " + eventLocation + ", " + eventBeneficiary);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Events Table.");
+        }
+    }
+    
+    private void printExpenses() {
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Expense");
+            System.out.println();
+            while (rs.next()) {
+                String benID = rs.getString("BeneficiaryID");
+                double amount = rs.getDouble("Amount");
+                Date expDate = rs.getDate("ExpDate");
+                String category = rs.getString("Category");
+                String description = rs.getString("Description");
+                System.out.println(benID + ", " + amount + ", " + expDate + ", " + category + ", " + description);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Expenses Table.");
+        }
+    }
+    
+    private void printVolunteers() {
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Volunteer");
+            System.out.println();
+            while (rs.next()) {
+                String volunteerName = rs.getString("Name");
+                String volunteerPhone = rs.getString("Phone");
+                int volunteerHours = rs.getInt("Hours");
+                String event = rs.getString("Event");
+                System.out.println(volunteerName + ", " + volunteerPhone + ", " + volunteerHours + " hours, " + event);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error Getting Volunteers Table.");
+        }
+    }
+    
     
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new NonProfitDBApp().setVisible(true));
