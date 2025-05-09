@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -88,7 +88,7 @@ public class NonProfitDBApp extends JFrame {
     private void insertDonor(String name, String phone, String type) {
         try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Donor VALUES (?, ?, ?)")) {
             stmt.setString(1, name);
-            stmt.setInt(2, Integer.parseInt(phone));
+            stmt.setInt(2, Integer.valueOf(phone));
             stmt.setString(3, type);
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(this, "Donor added!");
@@ -139,8 +139,7 @@ public class NonProfitDBApp extends JFrame {
         }
     }
 
-    // ---------- Add similar methods for Beneficiary, Volunteer, Donation, Expense ----------
-    private void showBeneficiaryForm() { /* similar pattern */
+    private void showBeneficiaryForm() {
         JFrame frame = new JFrame("Add Beneficiary");
         frame.setSize(300, 200);
         JPanel panel = new JPanel(new GridLayout(5, 2));
@@ -182,9 +181,7 @@ public class NonProfitDBApp extends JFrame {
 
     
     
-    private void showVolunteerForm() { 
-        /* similar pattern */ 
-        //doing what i can without being able to run so if wrong just delete
+    private void showVolunteerForm() {
         JFrame frame = new JFrame("Add Volunteer");
         frame.setSize(300, 200);
         JPanel panel = new JPanel(new GridLayout(5, 2));
@@ -241,6 +238,11 @@ public class NonProfitDBApp extends JFrame {
         //ensure Event Name exsists in Event
     //This should then update Volunteer_At with Volunteer.Name, Event.name
 
+
+
+    // ---------- Add similar methods for Beneficiary, Volunteer, Donation, Expense ----------
+
+
     private void showDonationForm() { /* similar pattern */ }
     //User Enter Fields: Name, Date, Amount, IsFirst, IsRecurring
     //Connected: The Separate Donor Entry MUST come First
@@ -252,11 +254,15 @@ public class NonProfitDBApp extends JFrame {
         //Ensure BeneficaryID is in Beneficiary.ID
         //Ensure ExpDate is in Event.Date
 
+
+
+    
     /* -------- Show Tables -------- */
     private void showTables(){
         JFrame frame = new JFrame("List Tables");
         frame.setSize(400, 400);
         JPanel panel = new JPanel(new GridLayout(7,1));
+
         //create buttons for each set of information
         JButton showDonorTableBtn = new JButton("Show Donors");
         JButton showDonationTableBtn = new JButton("Show Donations");	
@@ -265,6 +271,7 @@ public class NonProfitDBApp extends JFrame {
         JButton showExpenseTableBtn = new JButton("Show Expenses");
         JButton showVolunteerTableBtn = new JButton("Show Volunteers");
         JButton exitTables = new JButton("Exit");
+
         //adding buttons as panels
         panel.add(showDonorTableBtn);
         panel.add(showDonationTableBtn);
@@ -273,9 +280,11 @@ public class NonProfitDBApp extends JFrame {
         panel.add(showExpenseTableBtn);
         panel.add(showVolunteerTableBtn);
         panel.add(exitTables);
-        //setting visible
+
+        //setting panel into frame and as visible
         frame.add(panel);
         frame.setVisible(true);
+
         //add button functionality
         showDonorTableBtn.addActionListener(e -> {printDonors();});
         showDonationTableBtn.addActionListener(e -> {printDonations();});
@@ -286,22 +295,32 @@ public class NonProfitDBApp extends JFrame {
         exitTables.addActionListener(e -> frame.dispose());
     }
 
+    //---------- Creating Each Table Display
     private void printDonors(){
         try {
+            //sql query
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Donor");
-
+            //create initial frame and size
             JFrame frame = new JFrame("Donors List");
             frame.setSize(400, 400);
+            //create content panel with grid and sizes
             JPanel panel = new JPanel(new GridLayout(0,3));
+            panel.setSize(100, 20);
+            //create scrollbar, set to as needed
+            //set the content panel in the scrollbar panel
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            //frame exit button
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
+            //header labels
             panel.add(new JLabel("Name:"));
             panel.add(new JLabel("Phone #:"));
             panel.add(new JLabel("Donor Type:"));
-            
             int dcount = 0;     //for total number of donors
             while (rs.next()) {
+                //getting the SQL query output and printing to JLabel
                 String donName = rs.getString("Name");
                 String donPhone = rs.getString("Phone");
                 String donType = rs.getString("Type");
@@ -311,17 +330,21 @@ public class NonProfitDBApp extends JFrame {
                 dcount++;
                 //System.out.println(donName+", "+donPhone+", "+donType);
             }
+            //total donor count and exit fame button
             panel.add(new JLabel("Total Donor Count: "));
             panel.add(new JLabel(Integer.toString(dcount)));
             panel.add(exit);
-            frame.add(panel);
+            //adding scroll panel to frame
+            frame.add(vScroll);
+            //set frame to visible
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error Getting Table.");
         }
     }
-    
+
+    //all below follow the same pattern
     private void printDonations() {
         try {
             Statement stmt = conn.createStatement();
@@ -329,6 +352,9 @@ public class NonProfitDBApp extends JFrame {
             JFrame frame = new JFrame("Donations List");
             frame.setSize(500, 400);
             JPanel panel = new JPanel(new GridLayout(0,5));
+            panel.setSize(100, 20);
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("Name"));
@@ -355,7 +381,7 @@ public class NonProfitDBApp extends JFrame {
             panel.add(new JLabel("$" + Double.toString(dsum)));
             panel.add(new JLabel());panel.add(new JLabel()); //empty fields to keep spacing
             panel.add(exit);
-            frame.add(panel);
+            frame.add(vScroll);
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -368,8 +394,11 @@ public class NonProfitDBApp extends JFrame {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Beneficiary");
             JFrame frame = new JFrame("Beneficiary List");
-            frame.setSize(500, 400);
+            frame.setSize(400, 400);
             JPanel panel = new JPanel(new GridLayout(0,4));
+            panel.setSize(100, 20);
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("ID"));
@@ -389,11 +418,12 @@ public class NonProfitDBApp extends JFrame {
                 bcount++;
                 //System.out.println(benID + ", " + benName + ", " + benPhone + ", " + benType);
             }
+            panel.add(new JLabel());
             panel.add(new JLabel("Total Beneficiaries:"));
             panel.add(new JLabel(Integer.toString(bcount)));
-            panel.add(new JLabel());
+            
             panel.add(exit);
-            frame.add(panel);
+            frame.add(vScroll);
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -405,9 +435,12 @@ public class NonProfitDBApp extends JFrame {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Event");
-            JFrame frame = new JFrame(" List");
-            frame.setSize(400, 400);
+            JFrame frame = new JFrame("Events List");
+            frame.setSize(800, 400);
             JPanel panel = new JPanel(new GridLayout(0,4));
+            panel.setSize(200, 20);
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("Name"));
@@ -431,7 +464,7 @@ public class NonProfitDBApp extends JFrame {
             panel.add(new JLabel(Integer.toString(ecount)));
             panel.add(new JLabel());
             panel.add(exit);
-            frame.add(panel);
+            frame.add(vScroll);
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -443,9 +476,12 @@ public class NonProfitDBApp extends JFrame {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Expenses");
-            JFrame frame = new JFrame(" List");
-            frame.setSize(400, 400);
+            JFrame frame = new JFrame("Expenses");
+            frame.setSize(500, 400);
             JPanel panel = new JPanel(new GridLayout(0,5));
+            panel.setSize(100, 20);
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("Beneficiary ID"));
@@ -473,7 +509,7 @@ public class NonProfitDBApp extends JFrame {
             panel.add(new JLabel());
             panel.add(new JLabel());
             panel.add(exit);
-            frame.add(panel);
+            frame.add(vScroll);
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -485,9 +521,12 @@ public class NonProfitDBApp extends JFrame {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM jakinw1db.Volunteer");
-            JFrame frame = new JFrame(" List");
-            frame.setSize(400, 400);
+            JFrame frame = new JFrame("Volunteers");
+            frame.setSize(300, 400);
             JPanel panel = new JPanel(new GridLayout(0,3));
+            panel.setSize(100, 20);
+            JScrollPane vScroll = new JScrollPane(panel);
+            vScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("Name"));
@@ -513,7 +552,7 @@ public class NonProfitDBApp extends JFrame {
             panel.add(new JLabel("Total Hours:"));
             panel.add(new JLabel(Integer.toString(hcount)));
             panel.add(exit);
-            frame.add(panel);
+            frame.add(vScroll);
             frame.setVisible(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
