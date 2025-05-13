@@ -597,8 +597,8 @@ private void insertExpense(String beneficiaryID, String amount, String date, Str
             JButton exit = new JButton("Exit");
             exit.addActionListener(e -> frame.dispose());
             panel.add(new JLabel("Beneficiary ID"));
-            panel.add(new JLabel("Amount"));
             panel.add(new JLabel("Date"));
+            panel.add(new JLabel("Amount"));
             panel.add(new JLabel("Category"));
             panel.add(new JLabel("Description"));
             double sumCost=0;
