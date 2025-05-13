@@ -248,7 +248,7 @@ public class NonProfitDBApp extends JFrame {
 private void showDonationForm() {
     JFrame frame = new JFrame("Add Donation");
     frame.setSize(300, 200);
-    JPanel panel = new JPanel(new GridLayout(5, 2));
+    JPanel panel = new JPanel(new GridLayout(6, 2));
     JTextField nameField = new JTextField();
     JTextField dateField = new JTextField();
     JTextField amountField = new JTextField();
