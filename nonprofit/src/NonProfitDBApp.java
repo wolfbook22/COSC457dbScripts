@@ -243,16 +243,131 @@ public class NonProfitDBApp extends JFrame {
     // ---------- Add similar methods for Beneficiary, Volunteer, Donation, Expense ----------
 
 
-    private void showDonationForm() { /* similar pattern */ }
-    //User Enter Fields: Name, Date, Amount, IsFirst, IsRecurring
-    //Connected: The Separate Donor Entry MUST come First
-        //Ensure Donor Name exsists in Donor.Name
+    // ---------- Donation ----------
+
+private void showDonationForm() {
+    JFrame frame = new JFrame("Add Donation");
+    frame.setSize(300, 200);
+    JPanel panel = new JPanel(new GridLayout(5, 2));
+    JTextField nameField = new JTextField();
+    JTextField dateField = new JTextField();
+    JTextField amountField = new JTextField();
+    JTextField isFirstField = new JTextField();
+    JTextField isRecurringField = new JTextField();
+    JButton submitBtn = new JButton("Submit");
+
+    panel.add(new JLabel("Donor Name:")); panel.add(nameField);
+    panel.add(new JLabel("Date (YYYY-MM-DD):")); panel.add(dateField);
+    panel.add(new JLabel("Amount:")); panel.add(amountField);
+    panel.add(new JLabel("First Donation (Y/N):")); panel.add(isFirstField);
+    panel.add(new JLabel("Recurring Donation (Y/N):")); panel.add(isRecurringField);
+    panel.add(submitBtn);
+
+    frame.add(panel);
+    frame.setVisible(true);
+
+    submitBtn.addActionListener(e -> {
+        if (!donorExists(nameField.getText())) {
+            JOptionPane.showMessageDialog(frame, "Donor does not exist. Please enter a valid donor name.");
+            return; 
+        }
+        insertDonation(nameField.getText(), dateField.getText(), amountField.getText(), isFirstField.getText(), isRecurringField.getText());
+        frame.dispose();
+    });    
+}
+
+private boolean donorExists(String donorName) {
+    try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM jakinw1db.Donor WHERE Name = ?")) {
+        stmt.setString(1, donorName);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();  // If a row is found, the donor exists.
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;  // Return false in case of an error.
+    }
+}
+
+
+private void insertDonation(String donorName, String date, String amount, String isFirst, String isRecurring) {
+    try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Donation (Name, Date, Amount, IsFirst, IsRecurring) VALUES (?, ?, ?, ?, ?)")) {
+        stmt.setString(1, donorName);
+        stmt.setDate(2, Date.valueOf(date));
+        stmt.setDouble(3, Double.parseDouble(amount));
+        stmt.setString(4, isFirst);
+        stmt.setString(5, isRecurring);
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Donation added!");
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error adding donation.");
+    }
+}
+
+    // ---------- Expense ----------
+
+private void showExpenseForm() {
+    JFrame frame = new JFrame("Add Expense");
+    frame.setSize(300, 200);
+    JPanel panel = new JPanel(new GridLayout(6, 2));
+    JTextField benIDField = new JTextField();
+    JTextField amountField = new JTextField();
+    JTextField dateField = new JTextField();
+    JTextField categoryField = new JTextField();
+    JTextField descriptionField = new JTextField();
+    JButton submitBtn = new JButton("Submit");
+
+    panel.add(new JLabel("Beneficiary ID:")); panel.add(benIDField);
+    panel.add(new JLabel("Amount:")); panel.add(amountField);
+    panel.add(new JLabel("Expense Date (YYYY-MM-DD):")); panel.add(dateField);
+    panel.add(new JLabel("Category:")); panel.add(categoryField);
+    panel.add(new JLabel("Description:")); panel.add(descriptionField);
+    panel.add(submitBtn);
+
+    frame.add(panel);
+    frame.setVisible(true);
+
+    submitBtn.addActionListener(e -> {
+        if (!beneficiaryExists(benIDField.getText())) {
+            JOptionPane.showMessageDialog(frame, "Beneficiary does not exist. Please enter a valid beneficiary ID.");
+            return; 
+        }
+        if (!eventExists(dateField.getText())) {
+            JOptionPane.showMessageDialog(frame, "Event does not exist. Please enter a valid event date.");
+            return;
+        }
+        insertExpense(benIDField.getText(), amountField.getText(), dateField.getText(), categoryField.getText(), descriptionField.getText());
+        frame.dispose();
+    });
+}
     
-    private void showExpenseForm() { /* similar pattern */ }
-    //User Enter Fields: BeneficaryID, Amount, ExpDate, Category, Description
-    //Connected: Event AND Beneficiary entries MUST come first
-        //Ensure BeneficaryID is in Beneficiary.ID
-        //Ensure ExpDate is in Event.Date
+
+private boolean beneficiaryExists(String beneficiaryID) {
+    try (PreparedStatement stmt = conn.prepareStatement("SELECT * FROM jakinw1db.Beneficiary WHERE ID = ?")) {
+        stmt.setString(1, beneficiaryID);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();  // If a row is found, the beneficiary exists.
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;  // Return false in case of an error.
+    }
+}
+
+
+private void insertExpense(String beneficiaryID, String amount, String date, String category, String description) {
+    try (PreparedStatement stmt = conn.prepareStatement("INSERT INTO jakinw1db.Expense (BeneficiaryID, Amount, ExpDate, Category, Description) VALUES (?, ?, ?, ?, ?)")) {
+        stmt.setInt(1, Integer.parseInt(beneficiaryID));
+        stmt.setDouble(2, Double.parseDouble(amount));
+        stmt.setDate(3, Date.valueOf(date));
+        stmt.setString(4, category);
+        stmt.setString(5, description);
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Expense added!");
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error adding expense.");
+    }
+}
+
 
     /* -------- Show Tables -------- */
     private void showTables(){
