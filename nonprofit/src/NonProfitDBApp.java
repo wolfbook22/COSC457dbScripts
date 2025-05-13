@@ -310,15 +310,15 @@ private void showExpenseForm() {
     frame.setSize(300, 200);
     JPanel panel = new JPanel(new GridLayout(6, 2));
     JTextField benIDField = new JTextField();
-    JTextField amountField = new JTextField();
     JTextField dateField = new JTextField();
+    JTextField amountField = new JTextField();
     JTextField categoryField = new JTextField();
     JTextField descriptionField = new JTextField();
     JButton submitBtn = new JButton("Submit");
 
     panel.add(new JLabel("Beneficiary ID:")); panel.add(benIDField);
-    panel.add(new JLabel("Amount:")); panel.add(amountField);
     panel.add(new JLabel("Expense Date (YYYY-MM-DD):")); panel.add(dateField);
+    panel.add(new JLabel("Amount:")); panel.add(amountField);
     panel.add(new JLabel("Category:")); panel.add(categoryField);
     panel.add(new JLabel("Description:")); panel.add(descriptionField);
     panel.add(submitBtn);
