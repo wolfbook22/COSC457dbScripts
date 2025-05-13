@@ -31,7 +31,7 @@ public class NonProfitDBApp extends JFrame {
                 "jakinw1", "COSC*qgxvl"
             );
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "failed to connect to Database type shi", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Failed to connect to Database. Check the VPN.", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
 
@@ -477,17 +477,17 @@ private void insertExpense(String beneficiaryID, String amount, String date, Str
             double dsum = 0;
             while (rs.next()) {
                 String donName = rs.getString("Name");
-                String donDate = df.format(rs.getDate("Date"));
+                Date donDate = rs.getDate("Date");
                 double donAmount = rs.getDouble("Amount");
                 String isFirst = rs.getString("IsFirst");
                 String isRecurring = rs.getString("IsRecurring");
                 panel.add(new JLabel(donName));
-                panel.add(new JLabel(donDate));
+                panel.add(new JLabel(donDate.toString()));
                 panel.add(new JLabel(Double.toString(donAmount)));
                 panel.add(new JLabel(isFirst));
                 panel.add(new JLabel(isRecurring));
                 dsum += donAmount;
-                //System.out.println(donName + ", " + donDate + ", " + donAmount + ", " + isFirst + ", " + isRecurring);
+                System.out.println(donName + ", " + donDate + ", " + donAmount + ", " + isFirst + ", " + isRecurring);
             }
             panel.add(new JLabel("Total Donations: "));
             panel.add(new JLabel("$" + Double.toString(dsum)));
@@ -562,11 +562,11 @@ private void insertExpense(String beneficiaryID, String amount, String date, Str
             int ecount=0;
             while (rs.next()) {
                 String eventName = rs.getString("Name");
-                String eventDate = df.format(rs.getDate("EventDate"));
+                Date eventDate = rs.getDate("EventDate");
                 String eventLocation = rs.getString("Location");
                 String eventBeneficiary = rs.getString("Beneficiary");
                 panel.add(new JLabel(eventName));
-                panel.add(new JLabel(eventDate));
+                panel.add(new JLabel(eventDate.toString()));
                 panel.add(new JLabel(eventLocation));
                 panel.add(new JLabel(eventBeneficiary));
                 ecount++;
@@ -605,11 +605,11 @@ private void insertExpense(String beneficiaryID, String amount, String date, Str
             while (rs.next()) {
                 String benID = rs.getString("BeneficaryID");
                 double amount = rs.getDouble("Amount");
-                String expDate = df.format(rs.getDate("ExpDate"));
+                Date expDate = rs.getDate("ExpDate");
                 String category = rs.getString("Category");
                 String description = rs.getString("Description");
                 panel.add(new JLabel(benID));
-                panel.add(new JLabel(expDate));
+                panel.add(new JLabel(expDate.toString()));
                 panel.add(new JLabel(Double.toString(amount)));
                 panel.add(new JLabel(category));
                 panel.add(new JLabel(description));
